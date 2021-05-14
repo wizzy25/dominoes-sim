@@ -1,0 +1,16 @@
+{
+  "name": "dominoes",
+  "version": "1.0.0",
+  "author": "Williams Omayuku <womayuku@gmail.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "yarn tsc",
+    "start": "node dist/index.js",
+    "start-dev": "ts-node index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.3",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  }
+}
