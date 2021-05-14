@@ -15,18 +15,22 @@ export class Player {
 
     constructor(
         public readonly name: string,
-        private readonly board: GameBoard,
         private readonly withStrategy = false
     ) {}
 
-    public play(): Domino | null {
-        if (this.board.isEmpty) {
+    public play(board: GameBoard): Domino | null {
+        if (board.isEmpty) {
             const domino = this.removeDominoAtIndex(0);
-            this.board.addFirstDomino(domino);
+            board.addFirstDomino(domino);
             return domino;
         }
 
-        const [dominoIndexToPlay, edgeToPlayAt, isHead] = this.getDominoIndexAndEdgeToPlay();
+        const { leftEdge, rightEdge } = board;
+
+        const [dominoIndexToPlay, edgeToPlayAt, isHead] = this.getDominoIndexAndEdgeToPlay(
+            leftEdge,
+            rightEdge
+        );
 
         if (dominoIndexToPlay === -1) {
             return null;
@@ -35,11 +39,11 @@ export class Player {
         const domino = this.removeDominoAtIndex(dominoIndexToPlay);
 
         if (edgeToPlayAt === Edge.LEFT) {
-            this.board.addDominoToLeftEdge(domino, isHead!);
+            board.addDominoToLeftEdge(domino, isHead!);
         }
 
         if (edgeToPlayAt === Edge.RIGHT) {
-            this.board.addDominoToRightEdge(domino, isHead!);
+            board.addDominoToRightEdge(domino, isHead!);
         }
 
         return domino;
@@ -77,21 +81,24 @@ export class Player {
         return this.dominoes.length === 0;
     }
 
-    private getDominoIndexAndEdgeToPlay(): [number, Edge, boolean] | [number] {
+    private getDominoIndexAndEdgeToPlay(
+        leftEdge: number,
+        rightEdge: number
+    ): [number, Edge, boolean] | [number] {
         for (let i = 0; i < this.dominoes.length; i++) {
-            if (this.dominoes[i].head === this.board.leftEdge) {
+            if (this.dominoes[i].head === leftEdge) {
                 return [i, Edge.LEFT, true];
             }
 
-            if (this.dominoes[i].tail === this.board.leftEdge) {
+            if (this.dominoes[i].tail === leftEdge) {
                 return [i, Edge.LEFT, false];
             }
 
-            if (this.dominoes[i].head === this.board.rightEdge) {
+            if (this.dominoes[i].head === rightEdge) {
                 return [i, Edge.RIGHT, true];
             }
 
-            if (this.dominoes[i].tail === this.board.rightEdge) {
+            if (this.dominoes[i].tail === rightEdge) {
                 return [i, Edge.RIGHT, false];
             }
         }

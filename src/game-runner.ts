@@ -46,12 +46,12 @@ export class GameRunner {
             const playerName = await this.getName(i);
             const useAdvancedStrategy = await this.getshouldUseStrategy();
 
-            this.playerList.push(new Player(playerName.trim(), this.board, useAdvancedStrategy));
+            this.playerList.push(new Player(playerName, useAdvancedStrategy));
         }
     }
 
     private play(): void {
-        const playedDomino = this.playerOnTurn.play();
+        const playedDomino = this.playerOnTurn.play(this.board);
         if (!playedDomino) {
             if (this.dealer.canDeal) {
                 this.playerOnTurn.addDomino(this.dealer.getDomino())
