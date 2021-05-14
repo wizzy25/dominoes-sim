@@ -5,10 +5,12 @@
 export class Domino {
     constructor(public head: number, public tail: number) {}
 
-    public flip(): void {
+    public flip(): Domino {
         const temp = this.head;
         this.head = this.tail;
         this.tail = temp;
+
+        return this;
     }
 
     public get view(): string {

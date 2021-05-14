@@ -39,11 +39,11 @@ export class Player {
         const domino = this.removeDominoAtIndex(dominoIndexToPlay);
 
         if (edgeToPlayAt === Edge.LEFT) {
-            board.addDominoToLeftEdge(domino, isHead!);
+            board.addDominoToLeftEdge(isHead ? domino.flip() : domino);
         }
 
         if (edgeToPlayAt === Edge.RIGHT) {
-            board.addDominoToRightEdge(domino, isHead!);
+            board.addDominoToRightEdge(isHead ? domino : domino.flip());
         }
 
         return domino;

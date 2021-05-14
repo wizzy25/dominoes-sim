@@ -15,20 +15,12 @@ export class GameBoard {
         this.rightEdge = domino.tail;
     }
 
-    public addDominoToLeftEdge(domino: Domino, isHead: boolean): void {
-        if (isHead) {
-            domino.flip();
-        }
-
+    public addDominoToLeftEdge(domino: Domino): void {
         this.leftEdge = domino.head;
         this.dominoesLine.unshift(domino);
     }
 
-    public addDominoToRightEdge(domino: Domino, isHead: boolean): void {
-        if (!isHead) {
-            domino.flip();
-        }
-
+    public addDominoToRightEdge(domino: Domino): void {
         this.rightEdge = domino.tail;
         this.dominoesLine.push(domino);
     }
