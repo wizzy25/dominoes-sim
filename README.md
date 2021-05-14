@@ -7,6 +7,7 @@ Here is a dominoes game to play and take your time. Only twist is that you don't
 The game is played by 2 players until a winner emerges. A winner emerges when a player runs out of dominoes or there is no possible domino to be played by both players
 
 ## Technical details
+
 This package was created using [typescript v4](https://www.typescriptlang.org/) and consequently, the only dependencies are typescript-related dependencies.
 
 ### Requirements
