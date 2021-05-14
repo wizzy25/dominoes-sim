@@ -31,14 +31,20 @@ export class GameRunner {
 
         this.playerOnTurn = this.playerList[Math.floor(Math.random() * this.numberOfPlayers)];
 
+        console.log(`Game starting!!! ${this.playerOnTurn.name} plays first`);
+
         while (!this.gameOver) {
             await delay(this.delayBetweenTurns);
-            this.switchPlayerTurn();
+            if (!this.board.isEmpty) {
+                this.switchPlayerTurn();
+            }
+
             this.play();
             this.gameOverCheck();
         }
 
         this.endGameSequence();
+        process.exit();
     }
 
     private async setupPlayers(): Promise<void> {
@@ -54,7 +60,7 @@ export class GameRunner {
         const playedDomino = this.playerOnTurn.play(this.board);
         if (!playedDomino) {
             if (this.dealer.canDeal) {
-                this.playerOnTurn.addDomino(this.dealer.getDomino())
+                this.playerOnTurn.addDomino(this.dealer.getDomino());
                 console.log(
                     `\n${this.playerOnTurn.name} has no playable domino and picks one from the stack`
                 );
@@ -101,7 +107,6 @@ export class GameRunner {
             ? `${winner.name} wins the game!!! by having no tiles left!!!`
             : `${winner.name} wins the game!!! by blocking the game!!!`;
         console.log(message);
-        process.exit();
     }
 
     private switchPlayerTurn(): void {
