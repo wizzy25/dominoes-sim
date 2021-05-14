@@ -3,6 +3,10 @@ import { GameBoard } from "./gameboard";
 import { Player } from "./player";
 import { delay, prompt } from "./utils";
 
+/**
+ * GameRunner class
+ * Executes the gameplay and serves as an entry point to the game
+ */
 export class GameRunner {
     private readonly strategyForKey = "y";
     private readonly startingDominoesCount = 7;
@@ -15,12 +19,14 @@ export class GameRunner {
     private playerOnTurn: Player;
 
     public async start() {
-        await this.beginGameSequence();
+        await this.setupPlayers();
 
         this.dealer.shuffleDominoes();
 
         this.playerList.forEach((player) => {
-            this.dealer.deal(player, this.startingDominoesCount);
+            for (let i = 0; i < this.startingDominoesCount; i++) {
+                player.addDomino(this.dealer.getDomino());
+            }
         });
 
         this.playerOnTurn = this.playerList[Math.floor(Math.random() * this.numberOfPlayers)];
@@ -35,7 +41,7 @@ export class GameRunner {
         this.endGameSequence();
     }
 
-    private async beginGameSequence(): Promise<void> {
+    private async setupPlayers(): Promise<void> {
         for (let i = 1; i <= this.numberOfPlayers; i++) {
             const playerName = await this.getName(i);
             const useAdvancedStrategy = await this.getshouldUseStrategy();
@@ -48,7 +54,7 @@ export class GameRunner {
         const playedDomino = this.playerOnTurn.play();
         if (!playedDomino) {
             if (this.dealer.canDeal) {
-                this.dealer.deal(this.playerOnTurn, 1);
+                this.playerOnTurn.addDomino(this.dealer.getDomino())
                 console.log(
                     `\n${this.playerOnTurn.name} has no playable domino and picks one from the stack`
                 );
@@ -81,8 +87,9 @@ export class GameRunner {
     private gameOverCheck(): void {
         const playCanContinue = this.playerList.find(
             (player) =>
-                player.getPlayable(this.board.rightEdge) || player.getPlayable(this.board.leftEdge)
+                player.hasPlayable(this.board.rightEdge) || player.hasPlayable(this.board.leftEdge)
         );
+
         if (this.playerOnTurn.hasHandEmpty || (!playCanContinue && !this.dealer.canDeal)) {
             this.gameOver = true;
         }

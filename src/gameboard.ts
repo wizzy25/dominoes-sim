@@ -1,5 +1,9 @@
 import { Domino } from "./domino";
 
+/**
+ * GameBoard class
+ * Represents the board the game is played on including the actual dominoes tile
+ */
 export class GameBoard {
     public leftEdge: number;
     public rightEdge: number;

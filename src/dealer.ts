@@ -1,6 +1,10 @@
 import { Domino } from "./domino";
 import { Player } from "./player";
 
+/**
+ * GameDealer class
+ * Dominoes dealer deals and shuffles dominoes for the players
+ */
 export class GameDealer {
     public readonly dominoes = this.startingDominoes;
 
@@ -20,10 +24,8 @@ export class GameDealer {
         }
     }
 
-    public deal(player: Player, amountToDeal: number): void {
-        for (let i = 0; i < amountToDeal; i++) {
-            player.addDomino(this.dominoes.pop()!);
-        }
+    public getDomino(): Domino {
+        return this.dominoes.pop()!;
     }
 
     public get canDeal(): boolean {
